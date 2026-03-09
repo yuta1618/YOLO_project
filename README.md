@@ -1,5 +1,3 @@
-# YOLO_project
-Advanced Spatial Analysis Pipeline using YOLOv11. Comprehensive image understanding including Instance Segmentation, Pose Estimation, and Object-to-Object Proximity Analytics with Automated CSV Reporting.
 # 🚀 YOLOv11: Advanced Spatial & Physical Analysis Pipeline
 ## 📌 概要
 本プロジェクトは、最新の物体検出モデル **YOLOv11** をフル活用し、静止画および動画から**「高度な物理情報」**を抽出するための統合解析パイプラインです。単なる物体検知にとどまらず、空間内での物体の占有面積、個体識別、および物体間の相互作用（距離関係）を数値化します。
