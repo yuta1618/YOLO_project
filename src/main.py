@@ -5,22 +5,25 @@ import cv2
 import logging
 from ultralytics import YOLO
 
-# 自作モジュールのパスを通す
-sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+current_dir = os.path.dirname(os.path.abspath(__file__))
+sys.path.append(current_dir)
+
 from analyzer import SpatialAnalyzer
 from visualizer import SceneVisualizer
 
-# ロギング設定 (プロフェッショナルなデバッグ用)
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 def execute_pipeline(input_path, output_dir):
-    # 1. 初期化
-    model = YOLO('yolo11x-seg.pt') # 最先端セグメンテーションモデル
+    model = YOLO('yolo11x-seg.pt') 
     viz = SceneVisualizer()
     
-    # 2. 推論 (Tracking有効)
     logger.info(f"Processing: {input_path}")
+    
+    if not os.path.exists(input_path):
+        logger.error(f"File not found: {input_path}")
+        return
+
     results = model.track(input_path, persist=True, conf=0.25)[0]
     img = cv2.imread(input_path)
     
@@ -28,7 +31,6 @@ def execute_pipeline(input_path, output_dir):
         logger.warning("No significant objects detected.")
         return
 
-    # 3. 物理情報の抽出
     object_metrics = []
     boxes = results.boxes.xyxy.cpu().numpy()
     ids = results.boxes.id.cpu().numpy().astype(int)
@@ -56,5 +58,10 @@ def execute_pipeline(input_path, output_dir):
     logger.info(f"Success! Results saved in {output_dir}")
 
 if __name__ == "__main__":
-    # Google Colab上のパスを指定
-    execute_pipeline('/content/test_street.jpg', 'YOLO_project/outputs')
+
+    base_dir = os.getcwd()
+
+    input_img = os.path.join(base_dir, 'data', 'test_street.jpg')
+    out_dir = os.path.join(base_dir, 'outputs')
+
+    execute_pipeline(input_img, out_dir)
