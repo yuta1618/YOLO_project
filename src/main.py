@@ -48,7 +48,6 @@ def execute_pipeline(input_path, output_dir):
             'occ': occ
         })
 
-    # 4. 可視化とデータ保存
     final_img = viz.apply_overlay(img, results, object_metrics)
     
     os.makedirs(output_dir, exist_ok=True)
