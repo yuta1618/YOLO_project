@@ -1,0 +1,15 @@
+{
+  "name": "YOLO Spatial Analysis Environment",
+  "image": "mcr.microsoft.com/devcontainers/python:3.11",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-python.python",
+        "ms-python.vscode-pylance",
+        "njpwerner.autodocstring"
+      ]
+    }
+  },
+  "postCreateCommand": "apt-get update && apt-get install -y libgl1-mesa-glx && pip install -r YOLO_project/requirements.txt",
+  "remoteUser": "vscode"
+}
