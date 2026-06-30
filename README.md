@@ -1,37 +1,20 @@
 # 🚀 YOLOv11: Advanced Spatial & Physical Analysis Pipeline
-## 📌 概要
-本プロジェクトは、最新の物体検出モデル **YOLOv11** をフル活用し、静止画および動画から**「高度な物理情報」**を抽出するための統合解析パイプラインです。単なる物体検知にとどまらず、空間内での物体の占有面積、個体識別、および物体間の相互作用（距離関係）を数値化します。
 
+This project introduces an advanced analysis framework built on **YOLOv11**, extending conventional object detection into a physically interpretable vision system that extracts not only semantic labels but also structured spatial and geometric information from images and video streams. The central idea is to move beyond “what is in the image” toward “how objects exist and interact in space,” enabling a transition from perception to quantitative scene understanding.
 
+The pipeline integrates instance segmentation, multi-object tracking, and pose estimation into a unified representation. Instance segmentation provides pixel-accurate object boundaries, allowing computation of precise shape-dependent properties rather than coarse bounding boxes. Object tracking assigns persistent identities across frames, enabling temporal consistency and supporting motion-aware analysis such as trajectory inference and interaction dynamics. Pose estimation further extends the system to human-centric analysis by extracting 17-keypoint skeletal structures, allowing interpretation of posture, orientation, and kinematic state.
 
-## ✨ 主な機能
+On top of these perception modules, the system derives physically meaningful metrics. Object area occupation is computed as the ratio of segmented pixels to total image resolution, providing a normalized measure of spatial dominance. Spatial coordinates are defined via centroid extraction ((c_x, c_y)), enabling each detected entity to be embedded in a continuous geometric space. Inter-object relationships are quantified using Euclidean distance metrics, allowing proximity-aware reasoning such as collision risk estimation or clustering behavior detection. These transformations effectively map visual data into a structured physical state space.
 
-### 1. 統合インスタンス解析 (Integrated Instance Analysis)
-- **Instance Segmentation**: 物体の境界線をピクセル単位で特定し、形状を抽出。
-- **Object Tracking**: 独自のIDを付与し、画像内の全個体を識別管理。
-- **Pose Estimation**: 人物の骨格（17ポイント）を検知し、姿勢や向きを解析。
+The system also includes an automated reporting layer that converts raw detection outputs into analyzable artifacts. Visual reports combine segmentation masks, object IDs, pose skeletons, and distance graphs into a single coherent visualization, enabling intuitive inspection of spatial relationships. In parallel, structured data is exported in CSV format, including class labels, instance IDs, area ratios, centroids, and pairwise distance statistics, making the output directly usable for downstream machine learning, simulation, or statistical analysis.
 
-### 2. 物理情報の数値化 (Physical Metrics)
-- **占有面積 (Area Occupation)**: 画像全体の解像度に対する各物体のピクセル占有率を算出。
-- **座標位置 (Spatial Coordinates)**: 物体の中心点 ($c_x, c_y$) を特定。
-- **近接検知 (Proximity Alert)**: 物体間のユークリッド距離を計算し、設定値以下の接近を自動警告。
+Implementation is designed for scalable deployment, supporting both Google Colab GPU environments and local execution with CUDA acceleration. The modular structure allows easy replacement or upgrading of detection backbones, tracking algorithms, or pose estimation models, making the pipeline adaptable to future YOLO iterations and custom vision tasks.
 
-### 3. 自動レポーティング (Automated Reporting)
-- **Visual Report**: セグメンテーション、ID、ポーズ、距離情報を統合した解析画像を生成。
-- **Data Export**: 全物体の物理統計（クラス、ID、面積、座標）をCSV形式で出力。
+Overall, this project reframes YOLOv11 not merely as a detector, but as a bridge between computer vision and physical modeling, where images are transformed into structured spatial systems that can be analyzed, simulated, and potentially integrated with robotics, digital twins, or physics-informed AI systems.
 
-
-
-## 🛠 セットアップと使用方法
-
-### Google Colab で実行する場合
-1. リポジトリ内の `main.ipynb` を Google Colab で開きます。
-2. `Runtime` > `Change runtime type` から **T4 GPU** を選択します。
-3. 全てのセルを実行します。
-
-### ローカル環境の場合
-```bash
-git clone [https://github.com/yuta1618/yolo-advanced-analysis.git](https://github.com/yuta1618/yolo-advanced-analysis.git)
+```bash id="a9k3vd"
+git clone https://github.com/yuta1618/yolo-advanced-analysis.git
 cd yolo-advanced-analysis
 pip install -r requirements.txt
 python src/main.py --source data/test.jpg
+```
